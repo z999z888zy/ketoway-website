@@ -107,6 +107,10 @@ button, input, select, textarea { font: inherit; }
 .product-purple { background: #eee6f7; }
 .product-number { position: absolute; right: 24px; top: 22px; width: 35px; height: 35px; display: grid; place-items: center; border: 1px solid rgba(7,63,73,.18); border-radius: 50%; font-size: 10px; }
 .product-art { position: relative; height: 325px; }
+.product-photo { overflow: hidden; background: rgba(255,255,255,.55); }
+.product-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.75,.25,1); }
+.product-card:hover .product-photo img { transform: scale(1.035); }
+.photo-label { position: absolute; left: 18px; bottom: 18px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.68); border-radius: 999px; color: var(--deep); background: rgba(255,255,255,.84); box-shadow: 0 8px 22px rgba(5,47,55,.1); backdrop-filter: blur(10px); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
 .product-info { flex: 1; padding: 28px 30px 30px; background: rgba(255,255,255,.56); border-top: 1px solid rgba(255,255,255,.75); backdrop-filter: blur(12px); }
 .product-info p { margin: 0 0 8px; color: #548188; text-transform: uppercase; font-size: 9px; font-weight: 700; letter-spacing: .16em; }
 .product-info h3 { margin: 0 0 12px; font: 700 27px/1.2 "Manrope", sans-serif; letter-spacing: -.03em; }
@@ -190,8 +194,10 @@ button, input, select, textarea { font: inherit; }
 .quote { padding-top: 25px; background: var(--paper); }
 .quote-shell { display: grid; grid-template-columns: .82fr 1.18fr; gap: 80px; padding: 74px; border-radius: 34px; color: var(--white); background: linear-gradient(145deg, #0b5964, var(--deep)); box-shadow: var(--shadow); }
 .quote-copy > p:not(.eyebrow) { color: rgba(255,255,255,.62); font-size: 14px; line-height: 1.7; }
-.contact-placeholder { display: inline-flex; gap: 10px; margin-top: 25px; padding: 11px 14px; border: 1px solid rgba(255,255,255,.17); border-radius: 8px; font-size: 10px; text-transform: uppercase; letter-spacing: .11em; }
-.contact-placeholder span { color: rgba(255,255,255,.55); }.contact-placeholder strong { color: var(--aqua); }
+.contact-list { display: grid; gap: 10px; margin-top: 27px; }
+.contact-list a, .contact-list p { display: grid; grid-template-columns: 75px 1fr; gap: 12px; margin: 0; padding-top: 10px; border-top: 1px solid rgba(255,255,255,.13); font-size: 11px; }
+.contact-list span { color: rgba(255,255,255,.48); }.contact-list strong { color: var(--white); font-weight: 600; }
+.contact-list a:hover strong { color: var(--aqua); }
 .quote-form { padding: 33px; border-radius: 20px; color: var(--ink); background: var(--white); }
 .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
 .quote-form label { display: grid; gap: 8px; margin-bottom: 18px; color: #597176; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
@@ -203,11 +209,16 @@ button, input, select, textarea { font: inherit; }
 .form-note.success { color: #078071; }
 
 .site-footer { margin-top: 128px; color: var(--white); background: #062a31; }
-.footer-main { display: grid; grid-template-columns: 1.8fr .6fr .8fr; gap: 80px; padding: 75px 0 65px; }
+.footer-main { display: grid; grid-template-columns: 1.65fr .55fr .65fr 1fr; gap: 58px; padding: 75px 0 65px; }
 .brand-light { margin-bottom: 20px; }.footer-brand p { max-width: 370px; color: rgba(255,255,255,.5); font-size: 13px; line-height: 1.7; }
 .footer-links { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; font-size: 12px; color: rgba(255,255,255,.55); }
 .footer-links strong { margin-bottom: 10px; color: var(--white); font: 600 12px/1.2 "Manrope", sans-serif; text-transform: uppercase; letter-spacing: .1em; }.footer-links a:hover { color: var(--aqua); }.footer-links span { opacity: .55; }
 .footer-bottom { min-height: 70px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.35); font-size: 10px; }
+
+.whatsapp-float { position: fixed; z-index: 15; right: 22px; bottom: 22px; display: flex; align-items: center; gap: 10px; min-height: 49px; padding: 6px 16px 6px 7px; border: 1px solid rgba(255,255,255,.55); border-radius: 999px; color: #fff; background: #16a56b; box-shadow: 0 14px 35px rgba(0,48,32,.24); transition: transform .2s ease, box-shadow .2s ease; }
+.whatsapp-float:hover { transform: translateY(-3px); box-shadow: 0 18px 42px rgba(0,48,32,.32); }
+.whatsapp-float span { display: grid; width: 36px; height: 36px; place-items: center; border-radius: 50%; background: rgba(255,255,255,.18); font: 800 10px/1 "Manrope", sans-serif; }
+.whatsapp-float strong { font-size: 11px; }
 
 .reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition-duration: .01ms !important; } }
@@ -243,5 +254,6 @@ button, input, select, textarea { font: inherit; }
   .factory-gallery { display: block; }.factory-gallery figure { height: 310px; margin-bottom: 14px; }.factory-gallery .factory-small { height: 240px; }.factory-stats { grid-template-columns: 1fr 1fr; }
   .certificate-grid { gap: 45px; }.document-card { grid-template-columns: 53px 1fr auto; padding: 14px; }.document-card > span { width: 50px; height: 50px; }
   .quote { padding-top: 5px; }.quote-shell { width: 100%; border-radius: 0; padding: 70px 20px; gap: 45px; }.quote-form { padding: 25px 20px; }.form-row { grid-template-columns: 1fr; gap: 0; }
-  .site-footer { margin-top: 0; }.footer-main { grid-template-columns: 1fr 1fr; gap: 45px 25px; }.footer-brand { grid-column: 1 / -1; }.footer-bottom { align-items: flex-start; flex-direction: column; justify-content: center; gap: 7px; padding: 20px 0; }
+  .site-footer { margin-top: 0; }.footer-main { grid-template-columns: 1fr 1fr; gap: 45px 25px; }.footer-brand { grid-column: 1 / -1; }.footer-contact { grid-column: 1 / -1; }.footer-bottom { align-items: flex-start; flex-direction: column; justify-content: center; gap: 7px; padding: 20px 0; }
+  .whatsapp-float { right: 14px; bottom: 14px; padding-right: 7px; }.whatsapp-float strong { display: none; }
 }

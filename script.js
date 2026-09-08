@@ -32,8 +32,23 @@ const formNote = document.querySelector('#form-note');
 
 quoteForm?.addEventListener('submit', (event) => {
   event.preventDefault();
-  formNote.textContent = 'Preview received — email delivery will be enabled after contact details are confirmed.';
+  const data = new FormData(quoteForm);
+  const message = [
+    'Hello KETOWAY, I would like to request a quotation.',
+    '',
+    `Name: ${data.get('name') || '-'}`,
+    `Business email: ${data.get('email') || '-'}`,
+    `Company: ${data.get('company') || '-'}`,
+    `WhatsApp / phone: ${data.get('contact') || '-'}`,
+    `Product: ${data.get('product') || '-'}`,
+    `Estimated quantity: ${data.get('quantity') || '-'}`,
+    `Project details: ${data.get('message') || '-'}`
+  ].join('\n');
+
+  const whatsappUrl = `https://wa.me/8618888888888?text=${encodeURIComponent(message)}`;
+  formNote.textContent = 'Opening WhatsApp with your inquiry details…';
   formNote.classList.add('success');
+  window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 });
 
 document.querySelector('#year').textContent = new Date().getFullYear();
