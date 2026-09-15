@@ -45,10 +45,11 @@ quoteForm?.addEventListener('submit', (event) => {
     `Project details: ${data.get('message') || '-'}`
   ].join('\n');
 
-  const whatsappUrl = `https://wa.me/8618888888888?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = `https://wa.me/8613803378851?text=${encodeURIComponent(message)}`;
   formNote.textContent = 'Opening WhatsApp with your inquiry details…';
   formNote.classList.add('success');
   window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
 });
 
 document.querySelector('#year').textContent = new Date().getFullYear();
+
