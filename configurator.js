@@ -39,7 +39,7 @@
   const reset=make('button','config-reset','Reset');reset.type='button';reset.addEventListener('click',()=>{state=defaults(key);update()});actions.append(inquiry,reset);panel.append(actions);
   panel.append(make('p','config-disclaimer','Customization illustration only. Preview references are not SKU codes. Final size, material, print and color are confirmed with your sample.'));
   const view=make('div','config-view');const figure=make('figure','config-figure config-'+key);
-  const picture=make('img','config-model');picture.src='assets/'+product.model;picture.alt=product.name+' wearing illustration';picture.loading='lazy';picture.decoding='async';
+  const picture=make('img','config-model');picture.src='assets/'+product.model;picture.alt=product.name+' wearing illustration';picture.loading='eager';picture.decoding='async';
   const applied=make('span','applied-patch');applied.setAttribute('aria-hidden','true');applied.style.left=product.x+'%';applied.style.top=product.y+'%';applied.style.width=product.w+'%';applied.style.height=product.h+'%';applied.style.transform=`translate(-50%,-50%) rotate(${product.rotation}deg)`;
   const fabric=make('span','patch-fabric');applied.append(fabric);
   const modelStage=make('div','config-model-stage');modelStage.append(picture,applied);figure.append(modelStage);
