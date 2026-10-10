@@ -1,7 +1,6 @@
-// Configure a verified form service before enabling direct submissions.
-// Web3Forms: use /submit plus FORM_ACCESS_KEY, or /submit/YOUR_FORM_ID as the endpoint.
-const FORM_ENDPOINT = "";
-const FORM_ACCESS_KEY = "";
+// Web3Forms access keys are intended for client-side forms.
+const FORM_ENDPOINT = "https://api.web3forms.com/submit";
+const FORM_ACCESS_KEY = "fd279dc5-30c6-4160-af59-0d159d307a33";
 
 const menu = document.querySelector('#menu-toggle');
 const nav = document.querySelector('#main-nav');
@@ -42,6 +41,7 @@ if (form) {
 
   const status = document.querySelector('#form-status');
   const fallback = document.querySelector('#message-fallback');
+  const emailFallback = document.querySelector('#email-fallback');
   const web3Forms = FORM_ENDPOINT.includes('api.web3forms.com/submit');
   const endpointHasFormId = /\/submit\/[^/]+\/?$/.test(FORM_ENDPOINT);
   const connected = Boolean(FORM_ENDPOINT) && (!web3Forms || Boolean(FORM_ACCESS_KEY) || endpointHasFormId);
@@ -72,12 +72,17 @@ if (form) {
       else window.open(url, '_blank', 'noopener,noreferrer');
     }
   }
+  function showEmailFallback(data) {
+    emailFallback.href = `mailto:daisy@ketowayinc.com?subject=${encodeURIComponent('KETOWAY product inquiry')}&body=${encodeURIComponent(preparedMessage(data))}`;
+    emailFallback.hidden = false;
+  }
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (!form.reportValidity()) return;
     const data = new FormData(form);
-    if (String(data.get('website') || '').trim()) return; // Honeypot: never send spam.
+    if (String(data.get('website') || '').trim() || form.elements.botcheck.checked) return; // Honeypots: never send spam.
     fallback.hidden = true;
+    emailFallback.hidden = true;
     if (!connected) {
       const email = event.submitter?.value === 'email';
       showFallback(data, email, true);
@@ -93,7 +98,7 @@ if (form) {
     const fields = Object.fromEntries(data.entries());
     delete fields.website;
     const attribution = window.KT?.flat?.() || {};
-    const payload = { ...fields, ...attribution, reference, subject: `KETOWAY inquiry ${reference}` };
+    const payload = { ...fields, ...attribution, reference, subject: `KETOWAY inquiry ${reference}`, botcheck: false };
     if (FORM_ACCESS_KEY) payload.access_key = FORM_ACCESS_KEY;
     try {
       const response = await fetch(FORM_ENDPOINT, {
@@ -106,8 +111,9 @@ if (form) {
       status.textContent = `✅ Received — we reply within 1 business day. Reference: ${reference}`;
       form.reset();
     } catch {
-      status.textContent = 'We could not confirm delivery. Please send your prepared message on WhatsApp instead.';
+      status.textContent = 'We could not confirm delivery. Please send your prepared message via WhatsApp or email instead.';
       showFallback(data, false, false);
+      showEmailFallback(data);
     } finally {
       button.disabled = false;
     }
